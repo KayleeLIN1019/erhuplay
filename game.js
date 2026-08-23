@@ -74,6 +74,7 @@ function setMode(nextMode) {
   mode = nextMode;
   synth.endTone();
   pointer = null;
+  delete document.body.dataset.bowing;
   if (mode === "free") {
     session.pause();
     feedbackState = "neutral";
@@ -109,6 +110,7 @@ function render() {
   elements.progressBar.style.width = mode === "free" ? "100%" : `${(snapshot.completed / snapshot.total) * 100}%`;
   elements.currentNote.textContent = shownPitch.note;
   elements.currentScale.textContent = shownPitch.scale;
+  document.body.dataset.string = pitchById(selectedPitch).string === "内弦" ? "inner" : "outer";
 
   if (mode === "free") {
     elements.pieceEyebrow.textContent = "自由演奏 · 当前音位";
@@ -137,6 +139,7 @@ function render() {
 
 function resetPractice() {
   synth.endTone();
+  delete document.body.dataset.bowing;
   session.reset();
   selectedPitch = session.song.notes[0].pitch;
   feedbackState = "neutral";
@@ -209,6 +212,7 @@ function onPointerMove(event) {
 
   synth.beginTone(selectedPitch, direction, intensity);
   synth.updateTone(selectedPitch, intensity);
+  document.body.dataset.bowing = direction;
   elements.bowPad.dataset.direction = direction;
   elements.bowPad.style.setProperty("--bow-energy", String(intensity));
   if (!pointer.triggered) {
@@ -223,6 +227,7 @@ function onPointerEnd(event) {
   if (!pointer || pointer.id !== event.pointerId) return;
   pointer = null;
   synth.endTone();
+  delete document.body.dataset.bowing;
   elements.bowPad.classList.remove("dragging");
   elements.bowPad.style.setProperty("--bow-energy", "0");
   window.setTimeout(() => elements.bowPad.style.setProperty("--bow-x", "50%"), 120);
