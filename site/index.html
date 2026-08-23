@@ -45,6 +45,7 @@
                 <strong id="currentNote">D</strong>
                 <span id="currentScale">1</span>
               </div>
+              <span id="scoreBowDirection" class="score-bow-direction">拉弓 →</span>
             </div>
             <div class="stats" aria-label="当前成绩">
               <div><span>得分</span><b id="score">0000</b></div>
@@ -59,93 +60,15 @@
 
         <section class="instrument-stage" aria-label="二胡音位选择">
           <div class="stage-copy">
-            <div>
-              <p class="micro-label">左手 · 按弦选音</p>
-              <h2>点一下音位</h2>
-            </div>
-            <p><i></i> 红色纸签是你正在按住的音</p>
+            <h2><small>左手 ·</small> 按弦选音</h2>
           </div>
 
           <div class="instrument-grid">
             <div id="pitchGrid" class="pitch-grid"></div>
 
             <div class="erhu-illustration" aria-hidden="true">
-              <svg class="erhu-svg" viewBox="0 0 250 600" role="img" aria-label="平面绘制的二胡与长弓">
-                <defs>
-                  <linearGradient id="neckWood" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stop-color="#4b2515" />
-                    <stop offset="0.42" stop-color="#97532b" />
-                    <stop offset="0.72" stop-color="#6b341d" />
-                    <stop offset="1" stop-color="#32170f" />
-                  </linearGradient>
-                  <linearGradient id="boxWood" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#a85e30" />
-                    <stop offset="0.55" stop-color="#6e351e" />
-                    <stop offset="1" stop-color="#3b1c12" />
-                  </linearGradient>
-                  <linearGradient id="skinFace" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#e6c47e" />
-                    <stop offset="1" stop-color="#b77839" />
-                  </linearGradient>
-                  <pattern id="skinPattern" width="13" height="13" patternUnits="userSpaceOnUse" patternTransform="rotate(34)">
-                    <rect width="13" height="13" fill="url(#skinFace)" />
-                    <path d="M0 2h13M0 10h13" stroke="#f4d99d" stroke-width="2" opacity=".45" />
-                  </pattern>
-                  <filter id="softShadow" x="-30%" y="-20%" width="170%" height="160%">
-                    <feDropShadow dx="3" dy="6" stdDeviation="5" flood-color="#392115" flood-opacity=".18" />
-                  </filter>
-                </defs>
-
-                <g class="erhu-body" filter="url(#softShadow)">
-                  <path class="erhu-head" d="M144 27c4 20-2 33-15 45-8 7-8 18-5 29l-19 1c-4-18 0-32 13-44 8-8 11-18 9-31 4 5 10 6 17 0Z" fill="url(#neckWood)" />
-                  <path d="M124 29c8 5 15 5 22-1" fill="none" stroke="#c48957" stroke-width="4" stroke-linecap="round" />
-                  <path class="erhu-neck" d="M111 92c-1 122-1 275 2 389h21c-2-120-3-274-1-389Z" fill="url(#neckWood)" />
-                  <path d="M118 102c0 130 1 262 3 375" fill="none" stroke="#c8844d" stroke-width="3" opacity=".46" />
-
-                  <g class="pegs">
-                    <path d="M127 120c15-1 37-8 59-17 8-3 14 3 13 11-1 7-5 12-12 13-22 1-43 4-59 9Z" fill="#63301c" />
-                    <ellipse cx="193" cy="113" rx="11" ry="15" fill="#3a1c13" transform="rotate(71 193 113)" />
-                    <path d="M128 164c17 2 37 8 58 18 8 4 14-2 14-10 0-7-4-12-11-13-23-3-43-6-60-11Z" fill="#6e371f" />
-                    <ellipse cx="194" cy="172" rx="11" ry="15" fill="#3a1c13" transform="rotate(108 194 172)" />
-                    <circle cx="116" cy="129" r="6" fill="#35170f" />
-                    <circle cx="116" cy="156" r="6" fill="#35170f" />
-                  </g>
-
-                  <path d="M106 212h35" stroke="#efe7d5" stroke-width="11" stroke-linecap="round" />
-                  <path d="M106 212h35" stroke="#a43a2d" stroke-width="2" opacity=".65" />
-
-                  <g class="soundbox">
-                    <path d="M78 471 133 453l55 18 7 74-58 25-64-18Z" fill="url(#boxWood)" />
-                    <path d="m133 453 55 18-10 76-50 15-6-91Z" fill="#4b2417" opacity=".55" />
-                    <path d="M78 471 133 470l45 16-6 67-44 15-55-16Z" fill="#7f3d22" opacity=".72" />
-                    <path d="m74 484 52-14 6 92-60-10Z" fill="url(#skinPattern)" stroke="#4e2819" stroke-width="6" />
-                    <path d="M82 498c14-5 29-8 44-8M78 527c15-3 32-4 51-2" fill="none" stroke="#f1d79a" stroke-width="3" opacity=".42" />
-                    <path d="M65 556c12 9 30 14 58 15 30 1 54-6 73-20l4 19c-18 15-44 23-77 22-30-1-53-7-67-20Z" fill="#442116" />
-                    <path d="M68 558c16 8 35 11 57 12 26 0 47-5 65-15" fill="none" stroke="#a95d32" stroke-width="5" stroke-linecap="round" />
-                    <path d="M121 469 127 562" stroke="#e5c27c" stroke-width="4" />
-                    <path d="M110 472 114 563" stroke="#ead8aa" stroke-width="2" />
-                    <path d="m111 489 13-6 12 7-12 10Z" fill="#3a1b12" />
-                  </g>
-
-                  <g class="erhu-strings">
-                    <path class="erhu-string string-inner" d="M116 52c0 136-1 284 10 437" fill="none" stroke="#30231c" stroke-width="2.1" />
-                    <path class="erhu-string string-outer" d="M125 52c-3 136-2 283-14 437" fill="none" stroke="#d7c18f" stroke-width="2.2" />
-                  </g>
-                </g>
-
-                <g class="erhu-playing-bow">
-                  <path class="bow-stick-svg" d="M28 72C15 211 25 382 50 548" fill="none" stroke="#452116" stroke-width="7" stroke-linecap="round" />
-                  <path class="bow-highlight" d="M30 74C19 217 28 382 52 543" fill="none" stroke="#a85d33" stroke-width="2" stroke-linecap="round" />
-                  <path class="bow-hair-svg" d="M40 76C31 221 40 385 59 537" fill="none" stroke="#ead9ae" stroke-width="4" stroke-linecap="round" />
-                  <path d="m26 62 16 2 3 16-22-2Z" fill="#332019" />
-                  <path d="m46 541 18-5 5 15-19 7Z" fill="#5b2b19" />
-                </g>
-
-                <g class="svg-sound-waves" fill="none" stroke="#b83b2f" stroke-linecap="round">
-                  <path d="M203 471c11 10 12 23 3 34" />
-                  <path d="M214 461c18 17 20 38 5 55" />
-                </g>
-              </svg>
+              <img class="erhu-art" src="./erhu-bow-v2.png" alt="" />
+              <span class="erhu-seal">二胡</span>
               <span class="instrument-caption">长弓 · 两弦 · 琴筒</span>
             </div>
           </div>
@@ -154,7 +77,7 @@
         <section class="bow-section" aria-label="右手拉弓区">
           <div class="bow-heading">
             <div>
-              <p class="micro-label">右手 · 持弓演奏</p>
+              <p class="micro-label">右手 · 横向拖弓</p>
               <h2 id="bowTitle">这一弓，向右拉</h2>
             </div>
             <span id="bowBadge" class="bow-badge">拉弓 →</span>
