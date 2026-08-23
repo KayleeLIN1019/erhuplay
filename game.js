@@ -28,6 +28,11 @@ const elements = {
   soundButton: $("#soundButton"),
   helpButton: $("#helpButton"),
   guideDialog: $("#guideDialog"),
+  guidePages: [...document.querySelectorAll("[data-guide-step]")],
+  guideCounter: $("#guideCounter"),
+  guideDots: [...document.querySelectorAll("#guideDots i")],
+  guideBackButton: $("#guideBackButton"),
+  guideNextButton: $("#guideNextButton"),
   enterButton: $("#enterButton"),
   resultDialog: $("#resultDialog"),
   resultTitle: $("#resultTitle"),
@@ -45,6 +50,27 @@ let mode = "practice";
 let muted = false;
 let pointer = null;
 let feedbackState = "neutral";
+let guideStep = 0;
+
+function renderGuide() {
+  const lastStep = elements.guidePages.length - 1;
+  elements.guidePages.forEach((page, index) => {
+    const active = index === guideStep;
+    page.hidden = !active;
+    page.classList.toggle("active", active);
+  });
+  elements.guideDots.forEach((dot, index) => dot.classList.toggle("active", index === guideStep));
+  elements.guideCounter.textContent = `${guideStep + 1} / ${elements.guidePages.length}`;
+  elements.guideBackButton.hidden = guideStep === 0;
+  elements.guideNextButton.hidden = guideStep === lastStep;
+  elements.enterButton.hidden = guideStep !== lastStep;
+}
+
+function openGuide() {
+  guideStep = 0;
+  renderGuide();
+  if (!elements.guideDialog.open) elements.guideDialog.showModal();
+}
 
 function syncViewportHeight() {
   const viewport = window.visualViewport;
@@ -288,11 +314,20 @@ elements.bowPad.addEventListener("pointerdown", onPointerDown);
 elements.bowPad.addEventListener("pointermove", onPointerMove);
 elements.bowPad.addEventListener("pointerup", onPointerEnd);
 elements.bowPad.addEventListener("pointercancel", onPointerEnd);
-elements.helpButton.addEventListener("click", () => elements.guideDialog.showModal());
+elements.helpButton.addEventListener("click", openGuide);
+elements.guideBackButton.addEventListener("click", () => {
+  guideStep = Math.max(0, guideStep - 1);
+  renderGuide();
+});
+elements.guideNextButton.addEventListener("click", () => {
+  guideStep = Math.min(elements.guidePages.length - 1, guideStep + 1);
+  renderGuide();
+});
+elements.guideDialog.addEventListener("cancel", (event) => event.preventDefault());
 elements.enterButton.addEventListener("click", async () => {
   await synth.unlock();
   elements.guideDialog.close();
-  localStorage.setItem("erhu-guide-seen", "yes");
+  localStorage.setItem("erhu-onboarding-v12", "done");
 });
 elements.resultReplayButton.addEventListener("click", () => {
   elements.resultDialog.close();
@@ -328,6 +363,9 @@ window.addEventListener("resize", syncViewportHeight, { passive: true });
 window.addEventListener("orientationchange", syncViewportHeight, { passive: true });
 window.visualViewport?.addEventListener("resize", syncViewportHeight, { passive: true });
 render();
+if (localStorage.getItem("erhu-onboarding-v12") !== "done") {
+  window.setTimeout(openGuide, 220);
+}
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
