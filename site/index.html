@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#efe4cf" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="description" content="为手机触控设计的二胡模拟器与入门练习小游戏" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <title>弦上二胡 · 手机练功房</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <img src="./icon.svg" alt="" width="42" height="42" />
+          <div>
+            <p>ERHU POCKET STUDIO</p>
+            <h1>弦上二胡</h1>
+          </div>
+        </div>
+        <button id="helpButton" class="icon-button" type="button" aria-label="打开玩法说明">?</button>
+      </header>
+
+      <main class="game" aria-label="手机二胡模拟器">
+        <section class="mode-row" aria-label="演奏模式">
+          <div class="segmented-control">
+            <button type="button" class="active" data-mode="practice" aria-pressed="true">跟谱练习</button>
+            <button type="button" data-mode="free" aria-pressed="false">自由演奏</button>
+          </div>
+          <label class="song-select-wrap" for="songSelect">
+            <span>曲目</span>
+            <select id="songSelect" aria-label="选择练习曲目"></select>
+          </label>
+        </section>
+
+        <section class="score-paper" aria-label="乐谱和成绩">
+          <div class="score-heading">
+            <div>
+              <p class="micro-label" id="pieceEyebrow">当前一音 · 拉弓</p>
+              <div class="current-note">
+                <strong id="currentNote">D</strong>
+                <span id="currentScale">1</span>
+              </div>
+            </div>
+            <div class="stats" aria-label="当前成绩">
+              <div><span>得分</span><b id="score">0000</b></div>
+              <div><span>连击</span><b id="combo">×0</b></div>
+            </div>
+          </div>
+
+          <div id="noteLane" class="note-lane" aria-label="接下来的乐谱"></div>
+          <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+          <div class="progress-copy"><span id="songSubtitle">八拍入门 · 熟悉音位</span><b id="progressText">0 / 14</b></div>
+        </section>
+
+        <section class="instrument-stage" aria-label="二胡音位选择">
+          <div class="stage-copy">
+            <p class="micro-label">左手 · 按弦选音</p>
+            <h2>点一下音位</h2>
+            <p>红色纸签是你正在按住的音。</p>
+          </div>
+
+          <div class="erhu-illustration" aria-hidden="true">
+            <span class="peg peg-one"></span>
+            <span class="peg peg-two"></span>
+            <span class="neck"></span>
+            <span class="string string-one"></span>
+            <span class="string string-two"></span>
+            <span class="bow-stick"></span>
+            <span class="resonator"><i>弦</i></span>
+            <span class="sound-wave wave-one"></span>
+            <span class="sound-wave wave-two"></span>
+          </div>
+
+          <div id="pitchGrid" class="pitch-grid"></div>
+        </section>
+
+        <section class="bow-section" aria-label="右手拉弓区">
+          <div class="bow-heading">
+            <div>
+              <p class="micro-label">右手 · 持弓演奏</p>
+              <h2 id="bowTitle">这一弓，向右拉</h2>
+            </div>
+            <span id="bowBadge" class="bow-badge">拉弓 →</span>
+          </div>
+
+          <button id="bowPad" class="bow-pad target-pull" type="button" aria-label="按住并横向拖动琴弓">
+            <span class="bow-ink" aria-hidden="true"></span>
+            <span class="bow-line" aria-hidden="true"></span>
+            <span class="bow-knob" aria-hidden="true"><i></i></span>
+            <span class="bow-copy bow-left">← 推弓</span>
+            <span class="bow-copy bow-right">拉弓 →</span>
+            <span class="gesture-hint" aria-hidden="true">按住 · 横向拖动</span>
+          </button>
+        </section>
+
+        <section class="feedback-card" aria-live="polite" aria-atomic="true">
+          <span id="feedbackDot" class="feedback-dot"></span>
+          <p id="feedback">先点“开始练习”，音符会等你慢慢拉。</p>
+          <b id="accuracy">准确率 100%</b>
+        </section>
+      </main>
+
+      <footer class="practice-dock">
+        <button id="resetButton" class="secondary-button" type="button" aria-label="重新开始">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M5.7 15a7 7 0 1 0 .3-6.4L4 10" /></svg>
+          <span>重来</span>
+        </button>
+        <button id="startButton" class="primary-button" type="button">
+          <span class="play-icon" aria-hidden="true"></span>
+          <span id="startButtonText">开始练习</span>
+        </button>
+        <button id="soundButton" class="secondary-button" type="button" aria-pressed="false" aria-label="关闭声音">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12" /></svg>
+          <span>声音</span>
+        </button>
+      </footer>
+    </div>
+
+    <dialog id="guideDialog" class="paper-dialog">
+      <div class="dialog-seal" aria-hidden="true">弦</div>
+      <p class="micro-label">三步上手</p>
+      <h2>一只手选音，一只手拉弓</h2>
+      <ol>
+        <li><b>点音位</b><span>先在八张纸签里选中要演奏的音。</span></li>
+        <li><b>看弓向</b><span>乐谱会提示这一音该向左推，还是向右拉。</span></li>
+        <li><b>横向拖动</b><span>在弓区按住并滑动；方向、音位都正确才会前进。</span></li>
+      </ol>
+      <p class="dialog-tip">建议把手机音量调到 30% 左右。首次触摸后浏览器才会允许发声。</p>
+      <button id="enterButton" class="primary-button" type="button">进入练功房</button>
+    </dialog>
+
+    <dialog id="resultDialog" class="paper-dialog result-dialog">
+      <div class="result-mark" aria-hidden="true">成</div>
+      <p class="micro-label">本曲完成</p>
+      <h2 id="resultTitle">稳稳拉完《小星星》</h2>
+      <div class="result-stats">
+        <div><span>得分</span><b id="resultScore">1400</b></div>
+        <div><span>准确率</span><b id="resultAccuracy">100%</b></div>
+        <div><span>最高连击</span><b id="resultCombo">14</b></div>
+      </div>
+      <div class="result-actions">
+        <button id="resultFreeButton" class="text-button" type="button">自由拉一会儿</button>
+        <button id="resultReplayButton" class="primary-button" type="button">再奏一遍</button>
+      </div>
+    </dialog>
+
+    <script type="module" src="./game.js"></script>
+  </body>
+</html>
