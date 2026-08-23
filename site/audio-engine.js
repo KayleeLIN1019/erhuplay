@@ -166,8 +166,10 @@ export class ErhuSynth {
     const energy = clamp(intensity, 0.28, 1);
     const level = this.level(energy);
 
-    this.voice.stringTone.frequency.setTargetAtTime(frequency, now, 0.032);
-    this.voice.edgeTone.frequency.setTargetAtTime(frequency * 2.006, now, 0.04);
+    this.voice.stringTone.frequency.cancelScheduledValues(now);
+    this.voice.edgeTone.frequency.cancelScheduledValues(now);
+    this.voice.stringTone.frequency.setTargetAtTime(frequency, now, 0.022);
+    this.voice.edgeTone.frequency.setTargetAtTime(frequency * 2.006, now, 0.028);
     this.voice.stringGain.gain.setTargetAtTime(level, now, 0.025);
     this.voice.edgeGain.gain.setTargetAtTime(level * (0.065 + energy * 0.035), now, 0.04);
     this.voice.bowNoiseGain.gain.setTargetAtTime(0.003 + energy * 0.0046, now, 0.035);

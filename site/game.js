@@ -96,12 +96,19 @@ function buildStaticUI() {
     </button>
   `).join("");
 
-  elements.pitchGrid.addEventListener("click", (event) => {
+  const choosePitch = (event) => {
     const button = event.target.closest("[data-pitch]");
     if (!button) return;
     selectedPitch = button.dataset.pitch;
+    if (pointer?.sounding) synth.updateTone(selectedPitch, pointer.intensity);
     void synth.unlock();
     render();
+  };
+
+  // A second finger can change pitch while the first remains on the bow.
+  elements.pitchGrid.addEventListener("pointerdown", choosePitch);
+  elements.pitchGrid.addEventListener("click", (event) => {
+    if (event.detail === 0) choosePitch(event);
   });
 }
 
@@ -232,7 +239,15 @@ function onPointerDown(event) {
   event.preventDefault();
   elements.bowPad.setPointerCapture(event.pointerId);
   const rect = elements.bowPad.getBoundingClientRect();
-  pointer = { id: event.pointerId, startX: event.clientX, lastX: event.clientX, lastTime: performance.now(), triggered: false };
+  pointer = {
+    id: event.pointerId,
+    startX: event.clientX,
+    lastX: event.clientX,
+    lastTime: performance.now(),
+    intensity: 0.55,
+    sounding: false,
+    triggered: false,
+  };
   elements.bowPad.classList.add("dragging");
   elements.bowPad.style.setProperty("--bow-x", `${Math.max(8, Math.min(92, ((event.clientX - rect.left) / rect.width) * 100))}%`);
   void synth.unlock();
@@ -255,6 +270,8 @@ function onPointerMove(event) {
   const intensity = Math.max(0.32, Math.min(1, Math.abs(delta) / 120 + velocity * 0.35));
   const direction = delta > 0 ? "pull" : "push";
 
+  pointer.intensity = intensity;
+  pointer.sounding = true;
   synth.beginTone(selectedPitch, direction, intensity);
   synth.updateTone(selectedPitch, intensity);
   document.body.dataset.bowing = direction;
