@@ -8,6 +8,7 @@ const elements = {
   pieceEyebrow: $("#pieceEyebrow"),
   currentNote: $("#currentNote"),
   currentScale: $("#currentScale"),
+  scoreBowDirection: $("#scoreBowDirection"),
   score: $("#score"),
   combo: $("#combo"),
   noteLane: $("#noteLane"),
@@ -51,7 +52,6 @@ function buildStaticUI() {
     <button class="pitch-key${index === 0 ? " active" : ""}" type="button" data-pitch="${pitch.id}" aria-pressed="${index === 0}">
       <span class="key-number">${index + 1}</span>
       <strong>${pitch.note}</strong>
-      <span class="scale-note">${pitch.scale}</span>
       <small>${pitch.string}</small>
     </button>
   `).join("");
@@ -114,6 +114,7 @@ function render() {
 
   if (mode === "free") {
     elements.pieceEyebrow.textContent = "自由演奏 · 当前音位";
+    elements.scoreBowDirection.textContent = "自由推拉 ↔";
     elements.bowTitle.textContent = "横向拖动，自由推拉";
     elements.bowBadge.textContent = "推 ↔ 拉";
     elements.bowPad.classList.remove("target-pull", "target-push");
@@ -122,7 +123,8 @@ function render() {
     elements.startButtonText.textContent = "自由演奏中";
   } else {
     const label = targetDirection === "pull" ? "拉弓" : "推弓";
-    elements.pieceEyebrow.textContent = `当前一音 · ${label}`;
+    elements.pieceEyebrow.textContent = "当前一音";
+    elements.scoreBowDirection.textContent = targetDirection === "pull" ? "拉弓 →" : "← 推弓";
     elements.bowTitle.textContent = targetDirection === "pull" ? "这一弓，向右拉" : "这一弓，向左推";
     elements.bowBadge.textContent = targetDirection === "pull" ? "拉弓 →" : "← 推弓";
     elements.bowPad.classList.toggle("target-pull", targetDirection === "pull");
