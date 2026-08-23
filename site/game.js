@@ -46,6 +46,20 @@ let muted = false;
 let pointer = null;
 let feedbackState = "neutral";
 
+function syncViewportHeight() {
+  const viewport = window.visualViewport;
+  const height = viewport?.height ?? window.innerHeight;
+  document.documentElement.style.setProperty("--app-height", `${Math.round(height)}px`);
+}
+
+function updateInstrumentMotion(xPercent = 50) {
+  const normalized = Math.max(-1, Math.min(1, (xPercent - 50) / 27));
+  const shift = Math.min(8, window.innerWidth * 0.018);
+  document.documentElement.style.setProperty("--erhu-x", `${(normalized * shift).toFixed(2)}px`);
+  document.documentElement.style.setProperty("--erhu-y", `${(-Math.abs(normalized) * 1.5).toFixed(2)}px`);
+  document.documentElement.style.setProperty("--erhu-rotate", `${(normalized * 0.9).toFixed(2)}deg`);
+}
+
 function buildStaticUI() {
   elements.songSelect.innerHTML = SONGS.map((song) => `<option value="${song.id}">${song.title}</option>`).join("");
   elements.pitchGrid.innerHTML = PITCHES.map((pitch, index) => `
@@ -75,6 +89,7 @@ function setMode(nextMode) {
   synth.endTone();
   pointer = null;
   delete document.body.dataset.bowing;
+  updateInstrumentMotion(50);
   if (mode === "free") {
     session.pause();
     feedbackState = "neutral";
@@ -146,6 +161,7 @@ function resetPractice() {
   selectedPitch = session.song.notes[0].pitch;
   feedbackState = "neutral";
   elements.bowPad.style.setProperty("--bow-x", "50%");
+  updateInstrumentMotion(50);
   render();
 }
 
@@ -202,6 +218,7 @@ function onPointerMove(event) {
   const rect = elements.bowPad.getBoundingClientRect();
   const xPercent = Math.max(8, Math.min(92, ((event.clientX - rect.left) / rect.width) * 100));
   elements.bowPad.style.setProperty("--bow-x", `${xPercent}%`);
+  updateInstrumentMotion(xPercent);
 
   const delta = event.clientX - pointer.startX;
   if (Math.abs(delta) < 12) return;
@@ -232,7 +249,10 @@ function onPointerEnd(event) {
   delete document.body.dataset.bowing;
   elements.bowPad.classList.remove("dragging");
   elements.bowPad.style.setProperty("--bow-energy", "0");
-  window.setTimeout(() => elements.bowPad.style.setProperty("--bow-x", "50%"), 120);
+  window.setTimeout(() => {
+    elements.bowPad.style.setProperty("--bow-x", "50%");
+    updateInstrumentMotion(50);
+  }, 120);
 }
 
 elements.modeButtons.forEach((button) => button.addEventListener("click", () => setMode(button.dataset.mode)));
@@ -303,6 +323,10 @@ document.addEventListener("keydown", (event) => {
 });
 
 buildStaticUI();
+syncViewportHeight();
+window.addEventListener("resize", syncViewportHeight, { passive: true });
+window.addEventListener("orientationchange", syncViewportHeight, { passive: true });
+window.visualViewport?.addEventListener("resize", syncViewportHeight, { passive: true });
 render();
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {

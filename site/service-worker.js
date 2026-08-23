@@ -1,12 +1,12 @@
-const CACHE_NAME = "erhu-pocket-v10";
+const CACHE_NAME = "erhu-pocket-v11";
 const FILES = [
   "./",
   "./index.html",
-  "./styles.css?v=10",
-  "./game.js?v=10",
+  "./styles.css?v=11",
+  "./game.js?v=11",
   "./game-core.js",
   "./audio-engine.js",
-  "./erhu-panel.png?v=10",
+  "./erhu-instrument.png?v=11",
   "./icon.svg",
   "./manifest.webmanifest"
 ];
