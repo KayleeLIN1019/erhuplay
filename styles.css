@@ -832,3 +832,127 @@ body[data-bowing="push"] .erhu-art { transform: translateX(-3px) rotate(-0.35deg
   .pitch-key small { display: block; }
   .instrument-caption { display: none; }
 }
+
+/* Pixel-proportion pass based on the approved 853 × 1880 mobile reference. */
+.topbar {
+  min-height: calc(clamp(52px, 7.6vh, 64px) + var(--safe-top));
+  padding-inline: clamp(12px, 3.1vw, 17px);
+}
+
+.game {
+  grid-template-rows: clamp(34px, 5vh, 43px) clamp(94px, 13.5vh, 114px) minmax(220px, 1fr) clamp(68px, 10vh, 84px);
+  gap: clamp(5px, 0.8vh, 7px);
+  padding: clamp(6px, 1vh, 9px) clamp(10px, 3vw, 13px);
+}
+
+.score-paper {
+  grid-template-rows: auto minmax(35px, 1fr);
+  padding: clamp(9px, 1.25vh, 12px) clamp(12px, 3.4vw, 16px);
+}
+
+.score-heading > div:first-child { grid-row: 1 / 3; }
+.score-paper .note-lane { grid-row: 2; }
+.score-paper .progress-track,
+.score-paper .progress-copy { display: none; }
+.score-paper .note-token { min-height: clamp(34px, 5.3vh, 44px); }
+
+.instrument-caption { display: none; }
+.erhu-illustration {
+  background:
+    radial-gradient(ellipse at 18% 24%, rgba(91, 109, 69, 0.08) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 24% 31%, rgba(91, 109, 69, 0.07) 0 7px, transparent 8px),
+    radial-gradient(ellipse at 13% 38%, rgba(91, 109, 69, 0.065) 0 6px, transparent 7px),
+    linear-gradient(104deg, transparent 0 18%, rgba(91, 109, 69, 0.045) 18.5% 19%, transparent 19.5%),
+    rgba(251, 245, 233, 0.34);
+}
+
+.erhu-art {
+  width: 100%;
+  height: 100%;
+  object-position: 50% 50%;
+  filter: none;
+}
+
+.erhu-seal { display: none; }
+
+.bow-heading { min-height: clamp(23px, 3.4vh, 29px); }
+.bow-heading h2,
+.bow-badge,
+.gesture-hint,
+.bow-ink { display: none; }
+
+.bow-pad {
+  background: linear-gradient(90deg, rgba(255, 253, 246, 0.64), rgba(242, 229, 207, 0.52), rgba(255, 253, 246, 0.64));
+}
+
+.bow-line {
+  top: 50%;
+  right: 22%;
+  left: 22%;
+  height: 15px;
+  border: 0;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(90deg, rgba(91, 70, 53, 0.24) 0 1px, transparent 1px 10px),
+    linear-gradient(180deg, #c5b39e 0 42%, #e2d7c9 42% 58%, #bda994 58% 100%);
+  box-shadow: inset 0 1px 2px rgba(62, 43, 30, 0.18);
+  transform: translateY(-50%);
+}
+
+.bow-knob {
+  top: 50%;
+  left: clamp(23%, var(--bow-x), 77%);
+  width: clamp(27px, 7.6vw, 35px);
+  height: clamp(39px, 6.2vh, 49px);
+  border: 1px solid #3e2418;
+  border-radius: 3px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12), transparent 20% 76%, rgba(30, 14, 8, 0.22)),
+    repeating-linear-gradient(90deg, #6a351e 0 4px, #8c4b27 5px 8px, #542917 9px 12px);
+  box-shadow: 0 4px 6px rgba(55, 33, 21, 0.25), inset 0 0 0 2px rgba(209, 153, 91, 0.25);
+}
+
+.bow-knob i {
+  width: 11px;
+  height: 11px;
+  border: 1px solid #6f5a49;
+  background: #fffdf5;
+  box-shadow: inset 0 1px 2px rgba(79, 57, 40, 0.18);
+}
+
+.bow-copy {
+  top: 50%;
+  bottom: auto;
+  color: #4d3829;
+  font-size: clamp(11px, 1.85vh, 15px);
+  transform: translateY(-50%);
+}
+
+.bow-left { left: clamp(10px, 3.3vw, 16px); }
+.bow-right { right: clamp(10px, 3.3vw, 16px); }
+.target-pull .bow-right,
+.target-push .bow-left { color: var(--ink); }
+
+.practice-dock {
+  grid-template-columns: clamp(62px, 22vw, 88px) minmax(0, 1fr) clamp(62px, 22vw, 88px);
+  min-height: calc(clamp(72px, 11.2vh, 94px) + var(--safe-bottom));
+  padding: clamp(8px, 1.25vh, 11px) 9px calc(clamp(8px, 1.25vh, 11px) + var(--safe-bottom));
+  border: 3px solid #2b180f;
+  border-bottom: 0;
+  box-shadow: inset 0 0 0 2px rgba(137, 85, 49, 0.34), 0 -7px 18px rgba(48, 27, 17, 0.14);
+}
+
+.practice-dock .primary-button { min-height: 47px; }
+
+@media (max-height: 650px) {
+  .topbar { min-height: calc(clamp(48px, 7.6vh, 54px) + var(--safe-top)); }
+  .game { grid-template-rows: clamp(32px, 5vh, 35px) clamp(82px, 13.5vh, 94px) minmax(192px, 1fr) clamp(62px, 10vh, 70px); }
+  .score-paper { padding-block: 6px; }
+  .score-paper .note-token { min-height: 29px; }
+  .practice-dock { min-height: calc(clamp(66px, 11.2vh, 76px) + var(--safe-bottom)); }
+}
+
+@media (max-height: 540px) {
+  .game { grid-template-rows: 31px 72px minmax(174px, 1fr) 58px; }
+  .practice-dock { min-height: calc(61px + var(--safe-bottom)); }
+}
