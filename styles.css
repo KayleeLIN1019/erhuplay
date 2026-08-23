@@ -253,6 +253,7 @@ body[data-bowing] .erhu-image {
   border-radius: 0;
   color: var(--ink);
   background: rgba(255, 252, 247, 0.5);
+  touch-action: manipulation;
 }
 
 .pitch-key.active { border: 1.5px solid var(--red); color: var(--red-dark); background: rgba(255, 248, 241, 0.62); }
