@@ -344,7 +344,7 @@ elements.guideDialog.addEventListener("cancel", (event) => event.preventDefault(
 elements.enterButton.addEventListener("click", async () => {
   await synth.unlock();
   elements.guideDialog.close();
-  localStorage.setItem("erhu-onboarding-v12", "done");
+  localStorage.setItem("erhu-onboarding-v14", "done");
 });
 elements.resultReplayButton.addEventListener("click", () => {
   elements.resultDialog.close();
@@ -380,7 +380,7 @@ window.addEventListener("resize", syncViewportHeight, { passive: true });
 window.addEventListener("orientationchange", syncViewportHeight, { passive: true });
 window.visualViewport?.addEventListener("resize", syncViewportHeight, { passive: true });
 render();
-if (localStorage.getItem("erhu-onboarding-v12") !== "done") {
+if (localStorage.getItem("erhu-onboarding-v14") !== "done") {
   window.setTimeout(openGuide, 220);
 }
 
