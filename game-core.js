@@ -6,7 +6,7 @@ export const PITCHES = [
   { id: "A4", note: "A", scale: "5", string: "外弦", frequency: 440 },
   { id: "B4", note: "B", scale: "6", string: "外弦", frequency: 493.88 },
   { id: "C#5", note: "C♯", scale: "7", string: "外弦", frequency: 554.37 },
-  { id: "D5", note: "D", scale: "1·", string: "外弦", frequency: 587.33 },
+  { id: "D5", note: "D·", scale: "1·", string: "外弦", frequency: 587.33 },
 ];
 
 const alternatingNotes = (pitches) =>

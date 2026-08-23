@@ -304,7 +304,6 @@ document.addEventListener("keydown", (event) => {
 
 buildStaticUI();
 render();
-if (localStorage.getItem("erhu-guide-seen") !== "yes") elements.guideDialog.showModal();
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
