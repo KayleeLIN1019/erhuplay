@@ -9,7 +9,7 @@
     <meta name="description" content="弦上二胡手机练功房" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css?v=11" />
+    <link rel="stylesheet" href="./styles.css?v=12" />
     <title>弦上二胡 · Erhu Pocket Studio</title>
   </head>
   <body>
@@ -67,7 +67,7 @@
           <div class="instrument-spacer" aria-hidden="true"></div>
           <div class="instrument-art" aria-hidden="true">
             <span class="erhu-seal">二胡</span>
-            <img class="erhu-image" src="./erhu-instrument.png?v=11" alt="" />
+            <img class="erhu-image" src="./erhu-instrument.png?v=12" alt="" />
           </div>
         </section>
 
@@ -106,15 +106,45 @@
       </footer>
     </div>
 
-    <dialog id="guideDialog" class="paper-dialog">
-      <p>三步上手</p>
-      <h2>一只手选音，一只手拉弓</h2>
-      <ol>
-        <li><b>点音位</b><span>先从八张音位卡里选音。</span></li>
-        <li><b>看弓向</b><span>看当前音提示向左推或向右拉。</span></li>
-        <li><b>横向拖动</b><span>在弓区按住并横向滑动。</span></li>
-      </ol>
-      <button id="enterButton" class="dialog-button" type="button">进入练功房</button>
+    <dialog id="guideDialog" class="paper-dialog onboarding-dialog" aria-labelledby="guideTitle">
+      <div class="guide-topline">
+        <span>新手引导</span>
+        <b id="guideCounter">1 / 3</b>
+      </div>
+      <h2 id="guideTitle">三步学会拉二胡</h2>
+
+      <div class="guide-pages">
+        <section class="guide-page active" data-guide-step="0">
+          <div class="guide-demo pitch-demo" aria-hidden="true">
+            <span>1</span><strong>D</strong><small>内弦</small>
+          </div>
+          <h3>第一步：选择音位</h3>
+          <p>先点左侧八张音位卡中的目标音。红色边框表示当前已经选中的音位。</p>
+        </section>
+
+        <section class="guide-page" data-guide-step="1" hidden>
+          <div class="guide-demo cue-demo" aria-hidden="true">
+            <strong>D</strong><span>1</span><b>拉弓 →</b>
+          </div>
+          <h3>第二步：看准提示</h3>
+          <p>上方会显示当前音和弓向。箭头向右是拉弓，箭头向左是推弓。</p>
+        </section>
+
+        <section class="guide-page" data-guide-step="2" hidden>
+          <div class="guide-demo bow-demo" aria-hidden="true">
+            <span>← 推弓</span><i></i><b></b><span>拉弓 →</span>
+          </div>
+          <h3>第三步：按住横向拖弓</h3>
+          <p>在底部弓区按住木质滑块并左右拖动。方向和音位都正确，乐谱才会前进。</p>
+        </section>
+      </div>
+
+      <div id="guideDots" class="guide-dots" aria-hidden="true"><i class="active"></i><i></i><i></i></div>
+      <div class="guide-actions">
+        <button id="guideBackButton" class="guide-back" type="button" hidden>上一步</button>
+        <button id="guideNextButton" class="dialog-button" type="button">下一步</button>
+        <button id="enterButton" class="dialog-button" type="button" hidden>开始体验</button>
+      </div>
     </dialog>
 
     <dialog id="resultDialog" class="paper-dialog result-dialog">
@@ -131,6 +161,6 @@
       </div>
     </dialog>
 
-    <script type="module" src="./game.js?v=11"></script>
+    <script type="module" src="./game.js?v=12"></script>
   </body>
 </html>
